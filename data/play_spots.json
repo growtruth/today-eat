@@ -1,0 +1,50 @@
+{
+  "note": "游玩点位模板：坐标相对“选中的餐厅”偏移生成，保证“饭后顺路”的语义成立。真实版本由地图 POI 接口按餐厅坐标周边拉取。",
+  "items": [
+    {
+      "id": "play-01", "name": "一页独立书店", "type": "小众特色", "kind": "书店",
+      "distance": 420, "bearing": 35, "image": "hutong.jpg", "detourRatio": 0.04,
+      "desc": "旧书 + 新刊，靠窗有长桌", "openTime": "10:00-21:00"
+    },
+    {
+      "id": "play-02", "name": "巷口手冲咖啡", "type": "小众特色", "kind": "咖啡",
+      "distance": 260, "bearing": 300, "image": "coffee.jpg", "detourRatio": 0.02,
+      "desc": "只有六个吧台位，豆子每周换", "openTime": "09:00-19:00"
+    },
+    {
+      "id": "play-03", "name": "小甜点研究所", "type": "小众特色", "kind": "甜品",
+      "distance": 540, "bearing": 110, "image": "dessert.jpg", "detourRatio": 0.06,
+      "desc": "当日现做，卖完就收", "openTime": "11:00-20:00"
+    },
+    {
+      "id": "play-04", "name": "深夜串吧", "type": "小众特色", "kind": "烧烤",
+      "distance": 640, "bearing": 200, "image": "bbq.jpg", "detourRatio": 0.05,
+      "desc": "夜里十点后才热闹", "openTime": "18:00-02:00"
+    },
+    {
+      "id": "play-05", "name": "望京公园东门", "type": "大众景点", "kind": "公园",
+      "distance": 780, "bearing": 150, "image": "", "detourRatio": 0.08,
+      "desc": "秋天银杏正好，适合散步消食", "openTime": "06:00-22:00"
+    },
+    {
+      "id": "play-06", "name": "小剧场 · 黑匣子", "type": "大众景点", "kind": "演出",
+      "distance": 900, "bearing": 60, "image": "", "detourRatio": 0.10,
+      "desc": "周末晚场话剧，80 个座位", "openTime": "19:30-22:00"
+    },
+    {
+      "id": "play-07", "name": "城市影像展", "type": "大众景点", "kind": "展览",
+      "distance": 1150, "bearing": 240, "image": "", "detourRatio": 0.12,
+      "desc": "免费预约，周三闭馆", "openTime": "10:00-18:00"
+    },
+    {
+      "id": "play-08", "name": "老墙根儿杂货铺", "type": "小众特色", "kind": "小店",
+      "distance": 320, "bearing": 20, "image": "hutong.jpg", "detourRatio": 0.03,
+      "desc": "搪瓷杯、老挂历和散装糖果", "openTime": "10:00-20:30"
+    }
+  ],
+  "featuredStreets": [
+    {"name": "望京小街", "lat": 39.9968, "lng": 116.4780, "radius": 320},
+    {"name": "阜通银杏道", "lat": 39.9950, "lng": 116.4650, "radius": 300},
+    {"name": "南湖东园胡同", "lat": 39.9920, "lng": 116.4720, "radius": 260}
+  ]
+}

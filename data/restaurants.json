@@ -1,0 +1,496 @@
+{
+  "source": "demo",
+  "note": "图片取自需求包实拍参考素材，仅用于演示；真实版本由 POI 实拍图替换。",
+  "center": {
+    "lat": 39.9963,
+    "lng": 116.4703,
+    "city": "北京",
+    "area": "望京"
+  },
+  "items": [
+    {
+      "id": "demo-001",
+      "name": "巷子里九宫格火锅",
+      "cuisine": "火锅",
+      "category": "main",
+      "subCuisine": "川渝火锅",
+      "rating": 4.8,
+      "avgPrice": 128,
+      "lat": 39.998692,
+      "lng": 116.484998,
+      "address": "阜通东大街 6 号院（川渝火锅）",
+      "area": "望京",
+      "businessHours": "11:00-23:00",
+      "openTime": "11:00",
+      "closeTime": "23:00",
+      "tags": [
+        "周末友好",
+        "有包间",
+        "适合拍照"
+      ],
+      "soloFriendly": false,
+      "isNew": true,
+      "cover": "hotpot.jpg",
+      "gallery": [
+        "hotpot.jpg",
+        "hotpot-store.jpg",
+        "hutong.jpg"
+      ],
+      "photoPos": "45% 42%",
+      "signature": "川渝火锅",
+      "seatInfo": "4 人桌 6 张 · 8 人包间 2 间"
+    },
+    {
+      "id": "demo-002",
+      "name": "老铜锅涮肉",
+      "cuisine": "火锅",
+      "category": "main",
+      "subCuisine": "老北京火锅",
+      "rating": 4.6,
+      "avgPrice": 156,
+      "lat": 39.988915,
+      "lng": 116.443828,
+      "address": "望京西路 12 号（老北京火锅）",
+      "area": "望京",
+      "businessHours": "11:00-23:00",
+      "openTime": "11:00",
+      "closeTime": "23:00",
+      "tags": [
+        "周末友好",
+        "有包间"
+      ],
+      "soloFriendly": false,
+      "isNew": false,
+      "cover": "hotpot-store.jpg",
+      "gallery": [
+        "hotpot-store.jpg",
+        "hutong.jpg"
+      ],
+      "photoPos": "55% 58%",
+      "signature": "老北京火锅",
+      "seatInfo": "4 人桌 6 张 · 8 人包间 2 间"
+    },
+    {
+      "id": "demo-003",
+      "name": "木の寿司小屋",
+      "cuisine": "日料",
+      "category": "main",
+      "subCuisine": "日式料理",
+      "rating": 4.7,
+      "avgPrice": 168,
+      "lat": 40.001271,
+      "lng": 116.462566,
+      "address": "望京 SOHO T2 一层（日式料理）",
+      "area": "望京",
+      "businessHours": "11:30-22:30",
+      "openTime": "11:30",
+      "closeTime": "22:30",
+      "tags": [
+        "新店",
+        "适合拍照"
+      ],
+      "soloFriendly": true,
+      "isNew": true,
+      "cover": "sushi.jpg",
+      "gallery": [
+        "sushi.jpg",
+        "coffee.jpg",
+        "hutong.jpg"
+      ],
+      "photoPos": "50% 50%",
+      "signature": "日式料理",
+      "seatInfo": "2-4 人桌为主"
+    },
+    {
+      "id": "demo-004",
+      "name": "一膳居酒屋",
+      "cuisine": "日料",
+      "category": "main",
+      "subCuisine": "居酒屋",
+      "rating": 4.3,
+      "avgPrice": 186,
+      "lat": 40.000674,
+      "lng": 116.448981,
+      "address": "阜安西路 3 号（居酒屋）",
+      "area": "望京",
+      "businessHours": "11:30-22:30",
+      "openTime": "11:30",
+      "closeTime": "22:30",
+      "tags": [
+        "有包间"
+      ],
+      "soloFriendly": false,
+      "isNew": false,
+      "cover": "sushi.jpg",
+      "gallery": [
+        "sushi.jpg",
+        "coffee.jpg",
+        "hutong.jpg"
+      ],
+      "photoPos": "45% 42%",
+      "signature": "居酒屋",
+      "seatInfo": "4 人桌 6 张 · 8 人包间 2 间"
+    },
+    {
+      "id": "demo-005",
+      "name": "炭火小串局",
+      "cuisine": "烧烤",
+      "category": "main",
+      "subCuisine": "烧烤",
+      "rating": 4.5,
+      "avgPrice": 96,
+      "lat": 39.98708,
+      "lng": 116.491138,
+      "address": "花家地南街 8 号（烧烤）",
+      "area": "望京",
+      "businessHours": "16:00-次日 02:00",
+      "openTime": "16:00",
+      "closeTime": "次日 02:00",
+      "tags": [
+        "新店",
+        "周末友好"
+      ],
+      "soloFriendly": true,
+      "isNew": true,
+      "cover": "bbq.jpg",
+      "gallery": [
+        "bbq.jpg",
+        "hutong.jpg",
+        "hotpot-store.jpg"
+      ],
+      "photoPos": "55% 58%",
+      "signature": "烧烤",
+      "seatInfo": "2-4 人桌为主"
+    },
+    {
+      "id": "demo-006",
+      "name": "铁签子烤肉",
+      "cuisine": "烧烤",
+      "category": "main",
+      "subCuisine": "韩式烤肉",
+      "rating": 4.4,
+      "avgPrice": 118,
+      "lat": 40.005326,
+      "lng": 116.48713,
+      "address": "望京东路 1 号（韩式烤肉）",
+      "area": "望京",
+      "businessHours": "16:00-次日 02:00",
+      "openTime": "16:00",
+      "closeTime": "次日 02:00",
+      "tags": [
+        "有包间",
+        "周末友好"
+      ],
+      "soloFriendly": false,
+      "isNew": false,
+      "cover": "bbq.jpg",
+      "gallery": [
+        "bbq.jpg",
+        "hutong.jpg",
+        "hotpot-store.jpg"
+      ],
+      "photoPos": "50% 50%",
+      "signature": "韩式烤肉",
+      "seatInfo": "4 人桌 6 张 · 8 人包间 2 间"
+    },
+    {
+      "id": "demo-007",
+      "name": "午后甜点研究所",
+      "cuisine": "甜品",
+      "category": "drink",
+      "subCuisine": "甜品 · 蛋糕",
+      "rating": 4.6,
+      "avgPrice": 58,
+      "lat": 40.00323,
+      "lng": 116.473593,
+      "address": "望京街 9 号（甜品 · 蛋糕）",
+      "area": "望京",
+      "businessHours": "10:00-21:30",
+      "openTime": "10:00",
+      "closeTime": "21:30",
+      "tags": [
+        "新店",
+        "适合拍照"
+      ],
+      "soloFriendly": true,
+      "isNew": true,
+      "cover": "dessert.jpg",
+      "gallery": [
+        "dessert.jpg",
+        "coffee.jpg",
+        "milktea.jpg"
+      ],
+      "photoPos": "45% 42%",
+      "signature": "甜品 · 蛋糕",
+      "seatInfo": "2-4 人桌为主"
+    },
+    {
+      "id": "demo-008",
+      "name": "奶油小方",
+      "cuisine": "甜品",
+      "category": "drink",
+      "subCuisine": "甜品 · 蛋糕",
+      "rating": 4.4,
+      "avgPrice": 46,
+      "lat": 39.983962,
+      "lng": 116.464439,
+      "address": "广顺北大街 33 号（甜品 · 蛋糕）",
+      "area": "望京",
+      "businessHours": "10:00-21:30",
+      "openTime": "10:00",
+      "closeTime": "21:30",
+      "tags": [
+        "周末友好"
+      ],
+      "soloFriendly": true,
+      "isNew": false,
+      "cover": "dessert.jpg",
+      "gallery": [
+        "dessert.jpg",
+        "coffee.jpg",
+        "milktea.jpg"
+      ],
+      "photoPos": "55% 58%",
+      "signature": "甜品 · 蛋糕",
+      "seatInfo": "2-4 人桌为主"
+    },
+    {
+      "id": "demo-009",
+      "name": "窗边燕麦拿铁",
+      "cuisine": "咖啡",
+      "category": "drink",
+      "subCuisine": "咖啡",
+      "rating": 4.9,
+      "avgPrice": 42,
+      "lat": 40.000374,
+      "lng": 116.469362,
+      "address": "望京 SOHO 下沉广场（咖啡）",
+      "area": "望京",
+      "businessHours": "08:00-19:00",
+      "openTime": "08:00",
+      "closeTime": "19:00",
+      "tags": [
+        "适合拍照",
+        "新店"
+      ],
+      "soloFriendly": true,
+      "isNew": true,
+      "cover": "coffee.jpg",
+      "gallery": [
+        "coffee.jpg",
+        "dessert.jpg",
+        "hutong.jpg"
+      ],
+      "photoPos": "50% 50%",
+      "signature": "咖啡",
+      "seatInfo": "2-4 人桌为主"
+    },
+    {
+      "id": "demo-010",
+      "name": "胡同咖啡小屋",
+      "cuisine": "咖啡",
+      "category": "drink",
+      "subCuisine": "手冲咖啡",
+      "rating": 4.7,
+      "avgPrice": 48,
+      "lat": 39.983117,
+      "lng": 116.476562,
+      "address": "南湖中园二区（手冲咖啡）",
+      "area": "望京",
+      "businessHours": "08:00-19:00",
+      "openTime": "08:00",
+      "closeTime": "19:00",
+      "tags": [
+        "周末友好",
+        "适合拍照"
+      ],
+      "soloFriendly": true,
+      "isNew": false,
+      "cover": "hutong.jpg",
+      "gallery": [
+        "hutong.jpg",
+        "dessert.jpg"
+      ],
+      "photoPos": "45% 42%",
+      "signature": "手冲咖啡",
+      "seatInfo": "2-4 人桌为主"
+    },
+    {
+      "id": "demo-011",
+      "name": "桃桃芝士茶",
+      "cuisine": "奶茶",
+      "category": "drink",
+      "subCuisine": "奶茶 · 鲜果茶",
+      "rating": 4.5,
+      "avgPrice": 28,
+      "lat": 39.998792,
+      "lng": 116.472178,
+      "address": "望京 SOHO T1 大堂（奶茶 · 鲜果茶）",
+      "area": "望京",
+      "businessHours": "09:30-22:00",
+      "openTime": "09:30",
+      "closeTime": "22:00",
+      "tags": [
+        "新店"
+      ],
+      "soloFriendly": true,
+      "isNew": true,
+      "cover": "milktea.jpg",
+      "gallery": [
+        "milktea.jpg",
+        "dessert.jpg",
+        "coffee.jpg"
+      ],
+      "photoPos": "55% 58%",
+      "signature": "奶茶 · 鲜果茶",
+      "seatInfo": "2-4 人桌为主"
+    },
+    {
+      "id": "demo-012",
+      "name": "一杯桂花乌龙",
+      "cuisine": "奶茶",
+      "category": "drink",
+      "subCuisine": "奶茶",
+      "rating": 4.2,
+      "avgPrice": 22,
+      "lat": 39.994613,
+      "lng": 116.457815,
+      "address": "望京西园四区（奶茶）",
+      "area": "望京",
+      "businessHours": "09:30-22:00",
+      "openTime": "09:30",
+      "closeTime": "22:00",
+      "tags": [],
+      "soloFriendly": true,
+      "isNew": false,
+      "cover": "milktea.jpg",
+      "gallery": [
+        "milktea.jpg",
+        "dessert.jpg",
+        "coffee.jpg"
+      ],
+      "photoPos": "50% 50%",
+      "signature": "奶茶",
+      "seatInfo": "2-4 人桌为主"
+    },
+    {
+      "id": "demo-013",
+      "name": "胡同口炸酱面",
+      "cuisine": "小吃",
+      "category": "main",
+      "subCuisine": "北京小吃",
+      "rating": 4.4,
+      "avgPrice": 38,
+      "lat": 40.001596,
+      "lng": 116.466308,
+      "address": "花家地西里（北京小吃）",
+      "area": "望京",
+      "businessHours": "07:00-20:30",
+      "openTime": "07:00",
+      "closeTime": "20:30",
+      "tags": [
+        "周末友好"
+      ],
+      "soloFriendly": true,
+      "isNew": false,
+      "cover": "hutong.jpg",
+      "gallery": [
+        "hutong.jpg",
+        "hotpot-store.jpg"
+      ],
+      "photoPos": "45% 42%",
+      "signature": "北京小吃",
+      "seatInfo": "2-4 人桌为主"
+    },
+    {
+      "id": "demo-014",
+      "name": "老北京卤煮张",
+      "cuisine": "小吃",
+      "category": "main",
+      "subCuisine": "小吃",
+      "rating": 4.1,
+      "avgPrice": 45,
+      "lat": 39.979099,
+      "lng": 116.468336,
+      "address": "望京南湖东园（小吃）",
+      "area": "望京",
+      "businessHours": "07:00-20:30",
+      "openTime": "07:00",
+      "closeTime": "20:30",
+      "tags": [],
+      "soloFriendly": true,
+      "isNew": false,
+      "cover": "hutong.jpg",
+      "gallery": [
+        "hutong.jpg",
+        "hotpot-store.jpg"
+      ],
+      "photoPos": "55% 58%",
+      "signature": "小吃",
+      "seatInfo": "2-4 人桌为主"
+    },
+    {
+      "id": "demo-015",
+      "name": "渝味小馆",
+      "cuisine": "川菜",
+      "category": "main",
+      "subCuisine": "川菜",
+      "rating": 4.6,
+      "avgPrice": 88,
+      "lat": 39.995217,
+      "lng": 116.486438,
+      "address": "广顺南大街 5 号（川菜）",
+      "area": "望京",
+      "businessHours": "10:30-21:30",
+      "openTime": "10:30",
+      "closeTime": "21:30",
+      "tags": [
+        "周末友好",
+        "适合拍照"
+      ],
+      "soloFriendly": true,
+      "isNew": false,
+      "cover": "hotpot.jpg",
+      "gallery": [
+        "hotpot.jpg",
+        "hotpot-store.jpg",
+        "hutong.jpg"
+      ],
+      "photoPos": "50% 50%",
+      "signature": "川菜",
+      "seatInfo": "2-4 人桌为主"
+    },
+    {
+      "id": "demo-016",
+      "name": "望京小酒馆",
+      "cuisine": "西餐",
+      "category": "main",
+      "subCuisine": "西餐 · 酒馆",
+      "rating": 4.7,
+      "avgPrice": 198,
+      "lat": 39.986339,
+      "lng": 116.442429,
+      "address": "丽都花园路 2 号（西餐 · 酒馆）",
+      "area": "望京",
+      "businessHours": "17:00-次日 01:00",
+      "openTime": "17:00",
+      "closeTime": "次日 01:00",
+      "tags": [
+        "周末友好",
+        "适合拍照",
+        "有包间"
+      ],
+      "soloFriendly": false,
+      "isNew": false,
+      "cover": "hotpot-store.jpg",
+      "gallery": [
+        "hotpot-store.jpg",
+        "coffee.jpg",
+        "hutong.jpg"
+      ],
+      "photoPos": "45% 42%",
+      "signature": "西餐 · 酒馆",
+      "seatInfo": "4 人桌 6 张 · 8 人包间 2 间"
+    }
+  ]
+}

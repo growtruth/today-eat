@@ -1,0 +1,33 @@
+# 密钥与本地配置
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+venv/
+.venv/
+
+# 数据库（运行时生成）
+*.db
+*.sqlite3
+data/app.db
+
+# 日志与临时文件
+*.log
+logs/
+tmp/
+*.tmp
+
+# 编辑器/系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Node（工具脚本依赖）
+node_modules/
+
+# 工作区辅助目录
+.workbuddy/
+.wbapp_*.genie

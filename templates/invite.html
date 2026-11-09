@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#FFF9F2">
+  <title>饭搭子邀请 · 今天吃啥</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+  <link rel="stylesheet" href="{{ url_for('pages.app_css') }}?v={{ asset_version }}">
+  <style>
+    body { background: var(--bg); }
+    .invite-wrap {
+      min-height: 100vh; min-height: 100dvh; max-width: 460px; margin: 0 auto;
+      padding: calc(36px + var(--safe-top)) 22px 28px; display: flex; flex-direction: column;
+    }
+    .invite-brand { font-size: 13px; color: var(--ink-3); letter-spacing: 2px; }
+    .invite-card {
+      margin-top: 26px; padding: 28px 22px; border-radius: 22px; background: #fff;
+      box-shadow: var(--shadow-float); text-align: center;
+    }
+    .invite-emoji { font-size: 46px; }
+    .invite-title { margin-top: 10px; font-size: 22px; font-weight: 800; letter-spacing: -0.4px; }
+    .invite-sub { margin-top: 8px; font-size: 13px; color: var(--ink-2); line-height: 1.7; }
+    .invite-name { color: var(--primary-deep); font-weight: 700; }
+    .invite-field { margin-top: 22px; text-align: left; }
+    .invite-field label { font-size: 11.5px; color: var(--ink-2); }
+    .invite-field input {
+      width: 100%; height: 46px; margin-top: 6px; padding: 0 13px; border-radius: 11px;
+      border: 1px solid #EFE3D8; outline: none; font-size: 14px; color: var(--ink);
+    }
+    .invite-field input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(255,178,107,.15); }
+    .invite-btn { margin-top: 18px; }
+    .invite-status { margin-top: 16px; font-size: 12.5px; color: var(--mint-text); min-height: 20px; }
+    .invite-status.is-error { color: #C0564A; }
+    .invite-foot { margin-top: auto; padding-top: 26px; text-align: center; font-size: 10.5px; color: var(--ink-3); line-height: 1.7; }
+    .invite-foot a { color: var(--primary-deep); text-decoration: none; }
+    .invite-loading { margin-top: 30px; text-align: center; font-size: 12.5px; color: var(--ink-3); }
+  </style>
+</head>
+<body>
+<div class="invite-wrap">
+  <p class="invite-brand">今天吃啥 · 谁陪我吃呀</p>
+
+  <div class="invite-card" id="card" hidden>
+    <div class="invite-emoji">🍜</div>
+    <h1 class="invite-title">有人想和你成为饭搭子</h1>
+    <p class="invite-sub">
+      <span class="invite-name" id="inviter">朋友</span> 邀请你加入 TA 的饭搭子目录，<br>
+      以后抽搭子、掷骰子结账都用得上。
+    </p>
+
+    <div class="invite-field" id="nameField">
+      <label for="nickname">让 TA 怎么称呼你</label>
+      <input id="nickname" maxlength="20" placeholder="比如：小圆" autocomplete="nickname">
+    </div>
+
+    <button class="btn-primary invite-btn" id="acceptBtn" type="button">接受邀请</button>
+    <p class="invite-status" id="status" role="status" aria-live="polite"></p>
+  </div>
+
+  <p class="invite-loading" id="loading">正在打开邀请…</p>
+
+  <p class="invite-foot">
+    接受后，你和对方会互相出现在饭搭子目录里。<br>
+    只保存昵称与商圈，不读取通讯录，不读取微信好友。
+    <br><a href="/">先去看看今天吃啥 →</a>
+  </p>
+</div>
+
+<script nonce="{{ csp_nonce }}">
+(function () {
+  var token = {{ token | tojson }};
+  var card = document.getElementById('card');
+  var loading = document.getElementById('loading');
+  var statusEl = document.getElementById('status');
+  var acceptBtn = document.getElementById('acceptBtn');
+  var nameField = document.getElementById('nameField');
+  var nicknameInput = document.getElementById('nickname');
+
+  function setStatus(text, isError) {
+    statusEl.textContent = text || '';
+    statusEl.classList.toggle('is-error', !!isError);
+  }
+
+  // 与主应用共用同一个设备号，接受邀请后在主应用里仍是同一个身份
+  function deviceId() {
+    var key = 'today_eat_device_v1';
+    var value = null;
+    try { value = localStorage.getItem(key); } catch (e) { value = null; }
+    if (value && /^[A-Za-z0-9_-]{8,64}$/.test(value)) return value;
+    var raw = '';
+    try {
+      if (window.crypto && crypto.randomUUID) raw = crypto.randomUUID().replace(/-/g, '');
+    } catch (e) { raw = ''; }
+    if (!raw) raw = Math.random().toString(36).slice(2) + Date.now().toString(36);
+    value = ('d' + raw).slice(0, 40);
+    try { localStorage.setItem(key, value); } catch (e) { /* 隐私模式忽略 */ }
+    return value;
+  }
+
+  function api(path, options) {
+    return fetch(path, Object.assign({
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+    }, options || {})).then(function (response) {
+      return response.json().then(function (data) {
+        if (!data.ok) throw new Error(data.message || '请求失败');
+        return data;
+      });
+    });
+  }
+
+  api('/api/invites/' + encodeURIComponent(token)).then(function (data) {
+    loading.hidden = true;
+    card.hidden = false;
+    document.getElementById('inviter').textContent = data.invite.inviter || '朋友';
+
+    if (data.invite.status === 'accepted') {
+      nameField.hidden = true;
+      acceptBtn.hidden = true;
+      setStatus('这个邀请已经被接受啦');
+    } else if (data.invite.status === 'expired') {
+      nameField.hidden = true;
+      acceptBtn.hidden = true;
+      setStatus('邀请已过期，让对方重新发一个', true);
+    } else if (data.invite.status === 'revoked') {
+      nameField.hidden = true;
+      acceptBtn.hidden = true;
+      setStatus('邀请已被撤销', true);
+    }
+  }).catch(function (error) {
+    loading.textContent = error.message || '邀请不存在或已失效';
+    loading.classList.add('is-error');
+  });
+
+  acceptBtn.addEventListener('click', function () {
+    var nickname = (nicknameInput.value || '').trim();
+    if (!nickname) { setStatus('先填一个称呼吧', true); return; }
+    acceptBtn.disabled = true;
+    acceptBtn.textContent = '正在加入…';
+    setStatus('');
+
+    // 已有会话：把这次填的称呼同步过去（否则对方目录里会出现「本机用户」）
+    api('/api/me').then(function (data) {
+      if (data.user) {
+        var current = (data.user.nickname || '').trim();
+        if (current && current !== '本机用户' && current !== '微信用户') return data;
+        return api('/api/me', {
+          method: 'PATCH',
+          body: JSON.stringify({ nickname: nickname })
+        });
+      }
+      return api('/api/auth/device', {
+        method: 'POST',
+        body: JSON.stringify({ deviceId: deviceId(), nickname: nickname })
+      });
+    }).then(function () {
+      return api('/api/invites/' + encodeURIComponent(token) + '/accept', { method: 'POST', body: '{}' });
+    }).then(function (data) {
+      nameField.hidden = true;
+      acceptBtn.hidden = true;
+      setStatus('已加入，' + (data.buddyName || '对方') + ' 也出现在你的搭子里了');
+    }).catch(function (error) {
+      acceptBtn.disabled = false;
+      acceptBtn.textContent = '再试一次';
+      setStatus(error.message || '加入失败，稍后再试', true);
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "pages/webview/webview"
+  ],
+  "window": {
+    "navigationBarTitleText": "今天吃啥",
+    "navigationBarBackgroundColor": "#FFF9F2",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#FFF9F2",
+    "backgroundTextStyle": "light"
+  },
+  "lazyCodeLoading": "requiredComponents",
+  "sitemapLocation": "sitemap.json"
+}

@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#FFF9F2">
+  <meta name="format-detection" content="telephone=no">
+  <title>今天吃啥 · 每天吃啥 + 饭后逛玩</title>
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+  <link rel="stylesheet" href="{{ url_for('pages.app_css') }}?v={{ asset_version }}">
+</head>
+<body>
+<!-- ===================== 图标集 ===================== -->
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-5.6 7-11a7 7 0 1 0-14 0c0 5.4 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.4"/><path d="M16 16l4.6 4.6"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.8l2.9 5.8 6.4.9-4.6 4.5 1.1 6.4-5.8-3-5.8 3 1.1-6.4L2.7 9.5l6.4-.9z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6.5L9.2 17.3 4 12.1"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11.2A8 8 0 1 0 17.6 17"/><path d="M20 4.8v6.4h-6.4"/></symbol>
+  <symbol id="i-dice" viewBox="0 0 24 24"><rect x="3.6" y="3.6" width="16.8" height="16.8" rx="4.4"/><circle cx="8.4" cy="8.4" r="1.15" fill="currentColor" stroke="none"/><circle cx="15.6" cy="8.4" r="1.15" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.15" fill="currentColor" stroke="none"/><circle cx="8.4" cy="15.6" r="1.15" fill="currentColor" stroke="none"/><circle cx="15.6" cy="15.6" r="1.15" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11.2L12 4l8 7.2V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8.2" r="3.6"/><path d="M4.6 20c1.2-3.5 4-5.3 7.4-5.3s6.2 1.8 7.4 5.3"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9.5l6 6 6-6"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></symbol>
+  <symbol id="i-fork" viewBox="0 0 24 24"><path d="M7 3v6.6a2.8 2.8 0 0 0 5.6 0V3M9.8 12.4V21"/><path d="M17.2 3c-1.6 1.9-2.1 3.7-2.1 6.1 0 2 .8 3 2.1 3s2.1-1 2.1-3c0-2.4-.5-4.2-2.1-6.1zM17.2 12.1V21"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.6"/><path d="M12 7.4V12l3 1.8"/></symbol>
+  <symbol id="i-fire" viewBox="0 0 24 24"><path d="M12 3.2c3.1 4 6 6.1 6 10a6 6 0 1 1-12 0c0-2 .9-3.6 2.5-5.2.8-.8 1.5-1.9 1.7-2.9.3-1 .8-1.5 1.8-1.9z"/><path d="M12 20a3 3 0 0 1-1.4-5.6c.9-.6 1.3-1.3 1.4-2.2 1.4 1.9 2.4 3 2.4 4.4A3 3 0 0 1 12 20z"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M20.5 3.5C10 3.9 4.5 9 4.5 15.6c0 2.1.9 3.8 2 4.9"/><path d="M6 21c0-6.5 5-10.4 12-11.2"/></symbol>
+  <symbol id="i-walk" viewBox="0 0 24 24"><circle cx="13" cy="4.4" r="2"/><path d="M13 7.2l-2.6 4.1 2.4 2.2-1.9 6.3M10.4 11.3L7 13.2M13 9.4l3.6 2.6 1.6 3.4"/></symbol>
+  <symbol id="i-bike" viewBox="0 0 24 24"><circle cx="6" cy="17" r="3.4"/><circle cx="18" cy="17" r="3.4"/><path d="M9 17h5l-3.4-7.6H8.2M13.6 9.4h3.1L19 17M12.2 6.2h3"/></symbol>
+  <symbol id="i-car" viewBox="0 0 24 24"><path d="M4 15.5l1.6-5.2A3 3 0 0 1 8.5 8.2h7a3 3 0 0 1 2.9 2.1l1.6 5.2"/><path d="M3.4 15.5h17.2v3.2a1 1 0 0 1-1 1h-1.4a1 1 0 0 1-1-1v-1H6.8v1a1 1 0 0 1-1 1H4.4a1 1 0 0 1-1-1z"/><path d="M6.6 12h10.8"/></symbol>
+  <symbol id="i-locate" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><circle cx="12" cy="12" r="8"/><path d="M12 1.8v2.6M12 19.6v2.6M1.8 12h2.6M19.6 12h2.6"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+  <symbol id="i-export" viewBox="0 0 24 24"><path d="M12 15.4V3.6M7.6 8L12 3.6 16.4 8"/><path d="M4.5 14.5v4.2a1.8 1.8 0 0 0 1.8 1.8h11.4a1.8 1.8 0 0 0 1.8-1.8v-4.2"/></symbol>
+  <symbol id="i-import" viewBox="0 0 24 24"><path d="M12 3.6v11.8M7.6 11l4.4 4.4 4.4-4.4"/><path d="M4.5 14.5v4.2a1.8 1.8 0 0 0 1.8 1.8h11.4a1.8 1.8 0 0 0 1.8-1.8v-4.2"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13.4 6.6L20 12l-6.6 5.4"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><circle cx="6" cy="12" r="2.4"/><circle cx="17.5" cy="6" r="2.4"/><circle cx="17.5" cy="18" r="2.4"/><path d="M8.2 10.9l7.1-3.8M8.2 13.1l7.1 3.8"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M3.6 8.4h3.2l1.6-2.4h6.8l1.6 2.4h3.6a1 1 0 0 1 1 1v9.2a1 1 0 0 1-1 1H3.6a1 1 0 0 1-1-1V9.4a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.6" r="3.6"/></symbol>
+  <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7.4" ry="3"/><path d="M4.6 6v6c0 1.7 3.3 3 7.4 3s7.4-1.3 7.4-3V6"/><path d="M4.6 12v6c0 1.7 3.3 3 7.4 3s7.4-1.3 7.4-3v-6"/></symbol>
+  <symbol id="i-radar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.6"/><circle cx="12" cy="12" r="4.6"/><path d="M12 12l6.1-6.1"/><circle cx="16.2" cy="7.8" r="1.2" fill="currentColor" stroke="none"/></symbol>
+</svg>
+
+<div id="app" class="app">
+  <!-- ===================== 左右滑动容器（P1-P4） ===================== -->
+  <div class="pager" id="pager">
+    <div class="track" id="track">
+
+      <!-- ============ P1 首页 ============ -->
+      <section class="pane pane-home is-active" id="pane-home" data-page="0">
+        <header class="home-head">
+          <div class="home-title-row">
+            <div class="home-title">
+              <h1>今天吃啥</h1>
+              <p>今天也别纠结，交给我选</p>
+            </div>
+            <label class="weekend-switch" for="weekendSwitch">
+              <span>周末模式</span>
+              <span class="switch">
+                <input type="checkbox" id="weekendSwitch" aria-label="周末模式">
+                <i></i>
+              </span>
+            </label>
+          </div>
+
+          <div class="search-box">
+            <button class="search-loc" id="locBtn" type="button">
+              <svg class="ico"><use href="#i-pin"></use></svg>
+              <span id="locLabel">朝阳区 · 望京</span>
+            </button>
+            <input id="searchInput" type="search" inputmode="search" autocomplete="off"
+                   placeholder="搜索店名 / 菜系 / 商圈" aria-label="搜索店名、菜系或商圈">
+            <button class="search-submit" id="searchBtn" type="button" aria-label="搜索">
+              <svg class="ico"><use href="#i-search"></use></svg>
+            </button>
+          </div>
+        </header>
+
+        <div class="weekend-panel" id="weekendPanel" hidden>
+          <div class="weekend-banner">
+            <svg class="ico"><use href="#i-star"></use></svg>
+            <span id="weekendBannerText">周末模式 · 一个人也要好好吃饭</span>
+          </div>
+          <div class="weekend-modes" id="weekendModes" role="group" aria-label="周末模式筛选方式">
+            <button class="weekend-mode is-on" data-submode="solo" type="button" aria-pressed="true">
+              <span>🍜</span> 一个人吃
+            </button>
+            <button class="weekend-mode" data-submode="group" type="button" aria-pressed="false">
+              <span>👥</span> 一起聚餐
+            </button>
+          </div>
+        </div>
+
+        <div class="chip-row cuisine-row" id="cuisineRow" data-noswipe></div>
+
+        <div class="chip-row filter-row" id="filterRow" data-noswipe>
+          <button class="chip chip--filter" data-filter="price" type="button">
+            <span class="chip-label">价格</span>
+            <svg class="ico ico-sm"><use href="#i-chev"></use></svg>
+          </button>
+          <button class="chip chip--filter" data-filter="distance" type="button">
+            <span class="chip-label">3km 内</span>
+            <svg class="ico ico-sm"><use href="#i-chev"></use></svg>
+          </button>
+          <button class="chip chip--filter" data-filter="perCapita" type="button">
+            <span class="chip-label">人均</span>
+            <svg class="ico ico-sm"><use href="#i-chev"></use></svg>
+          </button>
+          <button class="chip chip--filter" data-filter="rating" type="button">
+            <span class="chip-label">评分</span>
+            <svg class="ico ico-sm"><use href="#i-chev"></use></svg>
+          </button>
+          <button class="chip chip--toggle" data-toggle="openOnly" type="button"
+                  aria-pressed="false" aria-label="只看营业中">
+            <svg class="ico ico-sm"><use href="#i-clock"></use></svg>
+            <span class="chip-label">营业中</span>
+          </button>
+        </div>
+
+        <div class="cond-row">
+          <div class="cond-chips" id="condChips"></div>
+          <div class="cond-right">
+            <span class="cond-count" id="condCount" aria-live="polite">共 0 家</span>
+            <button class="radar-entry" id="radarBtn" type="button" aria-label="打开美食雷达">
+              <svg class="ico"><use href="#i-radar"></use></svg><span>雷达</span>
+            </button>
+            <button class="icon-btn icon-btn--xs" id="refreshBtn" type="button" aria-label="换一家，按当前条件刷新">
+              <svg class="ico"><use href="#i-refresh"></use></svg>
+            </button>
+          </div>
+        </div>
+
+        <main class="feed" id="feed">
+          <div class="feed-col" id="colA"></div>
+          <div class="feed-col" id="colB"></div>
+          <div class="feed-status" id="feedStatus"></div>
+          <div class="feed-sentinel" id="feedSentinel"></div>
+        </main>
+
+        <div class="source-line">
+          <span id="sourceBadge">数据加载中</span>
+          <button class="link-btn" id="sourceBtn" type="button">采集说明</button>
+        </div>
+      </section>
+
+      <!-- ============ P2 商家详情 ============ -->
+      <section class="pane pane-detail" id="pane-detail" data-page="1">
+        <div class="detail-scroll" id="detailScroll">
+          <div class="gallery" id="detailGallery" data-noswipe>
+            <div class="gallery-track" id="galleryTrack"></div>
+            <div class="gallery-count" id="galleryCount">1/1</div>
+            <button class="round-btn round-btn--back" data-home type="button" aria-label="返回首页">
+              <svg class="ico"><use href="#i-back"></use></svg>
+            </button>
+            <div class="detail-dock">
+              <button class="round-btn" id="detailRefresh" type="button" aria-label="换一家">
+                <svg class="ico"><use href="#i-refresh"></use></svg>
+              </button>
+              <button class="round-btn" id="detailDraw" type="button" aria-label="随机抽一家">
+                <svg class="ico"><use href="#i-dice"></use></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="detail-card">
+            <div class="detail-name-row">
+              <h2 id="detailName">—</h2>
+              <span class="badge-open" id="detailOpen">营业中</span>
+            </div>
+            <div class="tag-row" id="detailTags"></div>
+            <div class="metric-row">
+              <span class="metric-star"><svg class="ico ico-star"><use href="#i-star"></use></svg><b id="detailRating">—</b></span>
+              <span class="metric" id="detailPrice">人均 —</span>
+              <span class="metric" id="detailDistance">—</span>
+              <span class="metric metric--right" id="detailCuisine">—</span>
+            </div>
+            <div class="detail-actions">
+              <button class="btn-outline" id="checkinBtn" type="button">
+                <svg class="ico"><use href="#i-check"></use></svg>
+                <span>吃过了</span>
+              </button>
+              <button class="btn-outline btn-outline--muted" id="addressBtn" type="button">
+                <svg class="ico"><use href="#i-pin"></use></svg>
+                <span id="detailAddressShort">门店地址</span>
+              </button>
+            </div>
+            <button class="btn-mint btn-block buddy-cta" id="detailBuddyBtn" type="button">
+              <svg class="ico"><use href="#i-dice"></use></svg> 抽个搭子陪我吃
+            </button>
+
+            <div class="review-head">
+              <span class="review-title"><i></i>大家怎么说</span>
+              <span class="review-hint">评价随赞数变成泡泡</span>
+            </div>
+
+            <div class="bubble-stage" id="bubbleStage">
+              <div class="bubble-empty" id="bubbleEmpty" hidden>
+                <p>这家店暂时没有公开评价摘要</p>
+                <a class="link-btn" id="reviewLink" href="#" target="_blank" rel="noopener">去地图看完整评价</a>
+              </div>
+            </div>
+
+            <div class="notes-head">
+              <span>大家的笔记</span>
+              <span class="notes-hint">地图公开摘要 · 未抓取第三方短评</span>
+            </div>
+            <div class="notes" id="detailNotes"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ P3 内嵌导航 ============ -->
+      <section class="pane pane-nav" id="pane-nav" data-page="2">
+        <div class="map-canvas" id="navMap"></div>
+
+        <header class="page-head page-head--float">
+          <button class="round-btn round-btn--back" data-home type="button" aria-label="回首页">
+            <svg class="ico"><use href="#i-back"></use></svg>
+          </button>
+          <div class="page-head-title">
+            <h2>去这家店</h2>
+            <p>内嵌简易导航</p>
+          </div>
+          <div class="head-dock">
+            <button class="round-btn" id="navDraw" type="button" aria-label="随机抽一家">
+              <svg class="ico"><use href="#i-dice"></use></svg>
+            </button>
+            <button class="round-btn" id="navRefresh" type="button" aria-label="换一家">
+              <svg class="ico"><use href="#i-refresh"></use></svg>
+            </button>
+          </div>
+        </header>
+
+        <div class="map-tools">
+          <button class="round-btn" id="navLocate" type="button" aria-label="回到我的位置">
+            <svg class="ico"><use href="#i-locate"></use></svg>
+          </button>
+          <div class="map-zoom">
+            <button class="round-btn" data-zoom="in" type="button" aria-label="放大"><svg class="ico"><use href="#i-plus"></use></svg></button>
+            <button class="round-btn" data-zoom="out" type="button" aria-label="缩小"><svg class="ico"><use href="#i-minus"></use></svg></button>
+          </div>
+        </div>
+
+        <section class="nav-panel">
+          <div class="sheet-handle"></div>
+          <div class="route-summary">
+            <div class="route-duration"><b id="navMinutes">18</b><span>分钟</span></div>
+            <div class="route-meta"><span id="navModeLabel">步行</span> <span id="navDistance">1.2km</span></div>
+          </div>
+          <div class="route-tip">
+            <svg class="ico"><use href="#i-pin"></use></svg>
+            <p id="navSteps">正在为你规划路线…</p>
+          </div>
+          <button class="btn-outline btn-block" id="nativeNavBtn" type="button">
+            <svg class="ico"><use href="#i-arrow"></use></svg>
+            打开高德 / 百度原生地图导航
+          </button>
+          <button class="btn-mint btn-block" id="goPlayBtn" type="button">
+            <svg class="ico"><use href="#i-fork"></use></svg>
+            吃完去哪玩
+            <svg class="ico"><use href="#i-arrow"></use></svg>
+          </button>
+        </section>
+      </section>
+
+      <!-- ============ P4 饭后游玩 ============ -->
+      <section class="pane pane-play" id="pane-play" data-page="3">
+        <header class="page-head">
+          <button class="round-btn round-btn--back" data-home type="button" aria-label="回首页">
+            <svg class="ico"><use href="#i-back"></use></svg>
+          </button>
+          <div class="page-head-title">
+            <h2>吃完去哪玩</h2>
+            <p>小众特色店 + 大众景点都安排</p>
+          </div>
+          <div class="head-dock">
+            <button class="round-btn round-btn--sm" id="playDraw" type="button" aria-label="随机抽一家">
+              <svg class="ico"><use href="#i-dice"></use></svg>
+            </button>
+            <span class="pill-mint" id="playDuration">步行 15 分钟</span>
+          </div>
+        </header>
+
+        <div class="play-map-card">
+          <div class="map-canvas" id="playMap"></div>
+          <div class="map-tools map-tools--play">
+            <button class="round-btn round-btn--sm" id="playMapReset" type="button" aria-label="回到店铺">
+              <svg class="ico"><use href="#i-locate"></use></svg>
+            </button>
+            <div class="map-zoom">
+              <button class="round-btn round-btn--sm" data-play-zoom="in" type="button" aria-label="放大地图">
+                <svg class="ico"><use href="#i-plus"></use></svg>
+              </button>
+              <button class="round-btn round-btn--sm" data-play-zoom="out" type="button" aria-label="缩小地图">
+                <svg class="ico"><use href="#i-minus"></use></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="rule-card">
+          <svg class="ico"><use href="#i-leaf"></use></svg>
+          <p>综合距离与顺路度排序，特色街巷权重 +30%；绕路超过 500 米自动切回最短路径。</p>
+        </div>
+
+        <div class="play-budget" id="playBudget" role="group" aria-label="饭后可用时间">
+          <button type="button" class="is-on" data-minutes="0">不限</button>
+          <button type="button" data-minutes="30">30 分钟内</button>
+          <button type="button" data-minutes="60">1 小时内</button>
+          <button type="button" data-minutes="120">2 小时内</button>
+        </div>
+
+        <div class="section-head">
+          <span class="section-title"><i></i>顺路游玩点位</span>
+          <span class="section-hint">向左滑看更多 …</span>
+        </div>
+
+        <div class="spot-cards" id="playCards" data-noswipe></div>
+
+        <div class="swipe-hint">
+          <span>«</span> 向右滑一下，直接回首页
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <div class="gesture-hint" id="gestureHint" hidden>
+    <span class="gh-arrows">← →</span>
+    <span class="gh-text">左右滑动看详情 · 摇一摇换一家</span>
+    <button class="gh-close" id="gestureHintClose" type="button">知道了</button>
+  </div>
+
+  <!-- ===================== 固定底部操作区 ===================== -->
+  <div class="dock dock--home" id="homeCta">
+    <button class="btn-primary btn-draw" id="drawBtn" type="button">
+      <span class="dice">🎲</span> 随机抽一家
+    </button>
+  </div>
+  <div class="dock dock--detail" id="detailCta">
+    <div class="dock-split">
+      <button class="btn-outline" id="dealsBtn" type="button">看团购</button>
+      <button class="btn-primary" id="decideBtn" type="button">决定吃这家 ✓</button>
+    </div>
+  </div>
+
+  <!-- ===================== P5 我的打卡（浮层） ===================== -->
+  <section class="checkin-layer" id="checkinLayer" aria-hidden="true">
+    <header class="checkin-head">
+      <div>
+        <h2>我的打卡</h2>
+        <p>吃过的每一家，都替你记着</p>
+      </div>
+      <button class="round-btn" id="checkinClose" type="button" aria-label="关闭">
+        <svg class="ico"><use href="#i-x"></use></svg>
+      </button>
+    </header>
+
+    <div class="checkin-body" id="checkinBody">
+      <div class="stats-card" id="statsCard">
+        <div class="stats-main">
+          <div class="stats-number"><b id="statTotal">0</b><span>家已打卡</span></div>
+          <p class="stats-sub" id="statSub">本月新增 0 家 · 还没有高频品类</p>
+        </div>
+        <div class="stats-icon">🍲</div>
+      </div>
+
+      <div class="backup-bar">
+        <svg class="ico"><use href="#i-db"></use></svg>
+        <p>打卡记录存在本机，清理缓存会提醒你先导出 JSON 备份。</p>
+        <button class="link-btn link-btn--strong" id="exportBtn" type="button">导出备份</button>
+      </div>
+
+      <div class="cloud-row" id="cloudRow" hidden>
+        <span class="cloud-dot" id="cloudDot"></span>
+        <span class="cloud-status" id="cloudStatus">打卡暂存本机</span>
+        <button class="link-btn link-btn--strong" id="cloudLoginBtn" type="button">登录同步</button>
+      </div>
+
+      <div class="checkin-groups" id="checkinGroups"></div>
+
+      <div class="checkin-foot">
+        <button class="btn-outline btn-block" id="importBtn" type="button">
+          <svg class="ico"><use href="#i-import"></use></svg> 导入 JSON 恢复
+        </button>
+        <input type="file" id="importFile" accept="application/json,.json" hidden>
+        <button class="link-btn" id="checkinSourceBtn" type="button">查看数据来源与采集说明</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 饭搭子（浮层） ===================== -->
+  <section class="buddy-layer" id="buddyLayer" aria-hidden="true">
+    <header class="checkin-head">
+      <div>
+        <h2>谁陪我吃呀</h2>
+        <p>饭搭子目录 · 位置加权抽取 · 骰子结账</p>
+      </div>
+      <button class="round-btn" id="buddyClose" type="button" aria-label="关闭">
+        <svg class="ico"><use href="#i-x"></use></svg>
+      </button>
+    </header>
+
+    <div class="buddy-body">
+      <div class="buddy-id-row">
+        <p class="buddy-me" id="buddyMe">正在建立本机身份…</p>
+        <button class="buddy-wechat" id="buddyWechatBtn" type="button" hidden>微信登录</button>
+      </div>
+
+      <div class="buddy-seg" role="tablist" aria-label="搭子功能">
+        <button class="buddy-seg-btn is-on" data-btab="list" role="tab" aria-selected="true" type="button">
+          饭搭子 <b id="buddyCount">0</b>
+        </button>
+        <button class="buddy-seg-btn" data-btab="dice" role="tab" aria-selected="false" type="button">
+          今天谁结账
+        </button>
+      </div>
+
+      <div id="buddyListView">
+        <div class="buddy-toolbar">
+          <button class="btn-primary" id="buddyAddBtn" type="button">+ 添加饭搭子</button>
+          <button class="btn-outline" id="buddyInviteBtn" type="button">发邀请</button>
+        </div>
+        <p class="buddy-note">
+          微信不开放好友列表：手动添加、Android 通讯录选择，或发邀请链接让 TA 接受后自动互加。
+        </p>
+        <div id="buddyList"></div>
+        <button class="btn-mint btn-block" id="buddyDrawBtn" type="button"><svg class="ico"><use href="#i-dice"></use></svg> 抽个搭子陪我吃</button>
+      </div>
+
+      <div id="diceView" hidden>
+        <div class="dice-stage" id="diceStage">
+          <div class="dice-side"><span class="dice-face" id="diceMe">?</span><b>我</b></div>
+          <span class="dice-vs">VS</span>
+          <div class="dice-side"><span class="dice-face" id="diceBuddy">?</span><b id="diceBuddyName">搭子</b></div>
+        </div>
+        <p class="dice-rule">各掷 1 枚骰子：差值 ≥3 点数小者结账，≤2 AA 制</p>
+        <div class="dice-pick" id="dicePick"></div>
+        <p class="dice-result" id="diceResult">选择一位搭子开始</p>
+        <button class="btn-primary btn-block" id="diceRollBtn" type="button">掷骰子</button>
+        <div class="dice-history" id="diceHistory"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 美食雷达（浮层） ===================== -->
+  <section class="radar-layer" id="radarLayer" aria-hidden="true" aria-label="美食雷达">
+    <header class="checkin-head radar-head">
+      <div>
+        <h2>美食雷达</h2>
+        <p id="radarSub">以当前位置为中心</p>
+      </div>
+      <button class="round-btn" id="radarClose" type="button" aria-label="关闭雷达">
+        <svg class="ico"><use href="#i-x"></use></svg>
+      </button>
+    </header>
+
+    <div class="radar-body">
+      <div class="radar-stage" id="radarStage"></div>
+      <div class="radar-legend" id="radarLegend"></div>
+      <div class="radar-rings" id="radarRings"></div>
+
+      <div class="radar-panel" id="radarPanel">
+        <p class="radar-empty" id="radarEmpty">点一下圆点看店，或让雷达帮你扫一家</p>
+        <div class="radar-card" id="radarCard" hidden></div>
+        <button class="btn-primary btn-block radar-scan" id="radarScan" type="button">
+          <svg class="ico"><use href="#i-radar"></use></svg> 扫描推荐一家
+        </button>
+        <p class="radar-note">
+          雷达只显示当前筛选结果；扫描与「随机抽一家」同一套权重，已打卡门店概率降到 30%。
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== 定位详情 ===================== -->
+  <section class="loc-layer" id="locLayer" aria-hidden="true" aria-label="我的位置">
+    <header class="checkin-head loc-head">
+      <div>
+        <h2>我的位置</h2>
+        <p id="locHeadSub">真实定位 · 街道 / POI 级地址</p>
+      </div>
+      <button class="round-btn" id="locClose" type="button" aria-label="关闭定位详情">
+        <svg class="ico"><use href="#i-x"></use></svg>
+      </button>
+    </header>
+
+    <div class="loc-body">
+      <!-- 经纬度 -->
+      <div class="loc-coord-card">
+        <div class="loc-coord-grid">
+          <div class="loc-coord-item">
+            <span>经度 Lng</span>
+            <b id="locLng">--</b>
+          </div>
+          <div class="loc-coord-item">
+            <span>纬度 Lat</span>
+            <b id="locLat">--</b>
+          </div>
+        </div>
+        <div class="loc-coord-meta">
+          <span id="locAccuracy">精度未知</span>
+          <span id="locSource">来源：浏览器 GPS</span>
+        </div>
+        <p class="loc-coord-raw" id="locRaw"></p>
+      </div>
+
+      <!-- 地址 -->
+      <div class="loc-addr-card">
+        <div class="loc-addr-pin"><svg class="ico"><use href="#i-pin"></use></svg></div>
+        <div class="loc-addr-body">
+          <b id="locAddrPrecise">正在解析地址…</b>
+          <p id="locAddrFull"></p>
+          <div class="loc-addr-tags" id="locAddrTags"></div>
+        </div>
+      </div>
+
+      <!-- 地图 -->
+      <div class="loc-map-wrap">
+        <div class="loc-map" id="locMap"></div>
+        <div class="loc-map-tools">
+          <button class="loc-map-btn" id="locZoomIn" type="button" aria-label="放大地图">+</button>
+          <button class="loc-map-btn" id="locZoomOut" type="button" aria-label="缩小地图">−</button>
+        </div>
+        <p class="loc-map-hint" id="locMapHint">拖动/缩放看周边 · 点标记看详情</p>
+      </div>
+
+      <!-- 周边地标 -->
+      <section class="loc-section">
+        <div class="loc-section-head">
+          <h3>周边地标</h3>
+          <span id="locLandmarkCount">--</span>
+        </div>
+        <div class="loc-landmark-list" id="locLandmarks"></div>
+      </section>
+
+      <!-- 位置感知推荐 -->
+      <section class="loc-section">
+        <div class="loc-section-head">
+          <h3>位置感知推荐</h3>
+          <span class="loc-area-type" id="locAreaType">--</span>
+        </div>
+        <p class="loc-insight" id="locInsight"></p>
+        <div class="loc-rule" id="locRule"></div>
+        <div class="loc-picks" id="locPicks"></div>
+      </section>
+    </div>
+  </section>
+
+  <!-- ===================== 底部 Tab ===================== -->
+  <nav class="tabbar" id="tabbar" role="tablist" aria-label="主导航">
+    <button class="tab is-active" data-tab="home" role="tab" aria-selected="true" type="button">
+      <svg class="ico"><use href="#i-home"></use></svg><span>首页</span>
+    </button>
+    <button class="tab" data-tab="draw" role="tab" aria-selected="false" type="button">
+      <svg class="ico"><use href="#i-dice"></use></svg><span>随机抽</span>
+    </button>
+    <button class="tab" data-tab="buddies" role="tab" aria-selected="false" type="button">
+      <svg class="ico"><use href="#i-user"></use></svg><span>搭子</span>
+    </button>
+    <button class="tab" data-tab="checkin" role="tab" aria-selected="false" type="button">
+      <svg class="ico"><use href="#i-check"></use></svg><span>我的打卡</span>
+    </button>
+  </nav>
+
+  <!-- ===================== 浮层容器 ===================== -->
+  <div id="sheetRoot" class="sheet-root"></div>
+  <div id="drawOverlay" class="draw-overlay" aria-hidden="true"></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="loading" class="loading" hidden>
+    <div class="loading-card">
+      <div class="loading-bowl">🍜</div>
+      <p id="loadingText">正在找附近好吃的…</p>
+    </div>
+  </div>
+</div>
+
+<script nonce="{{ csp_nonce }}">
+  window.APP_CONFIG = {{ bootstrap | tojson }};
+</script>
+<script src="{{ url_for('static', filename='vendor/workbuddy-cloud-sdk.global.js') }}"></script>
+<script src="{{ url_for('pages.app_js') }}?v={{ asset_version }}"></script>
+</body>
+</html>
